@@ -3,17 +3,17 @@
   :root{
     --navy:#1A3A5C;--navy-2:#12293f;--orange:#E87722;
     --bg:#eef3f8;--surface:#ffffff;--surface-2:#f4f8fb;--ink:#1e2a35;--ink-soft:#5a6b7a;--line:#d5e0ea;
-    --done:#2f7d3a;--done-bg:#dff0d8;--out:#b06a1f;--out-bg:#fbe6cf;--band:#fff4e6;--track:#dbe6f0;
+    --done:#2f7d3a;--done-bg:#dff0d8;--out:#b06a1f;--out-bg:#fbe6cf;--over:#c0392b;--over-bg:#fbe0dd;--band:#fff4e6;--track:#dbe6f0;
     --w:#4f8a3d;--w-bg:#e2efda;--m:#2f6d3f;--m-bg:#c6e0b4;--a:#255a2a;--a-bg:#a9d08e;
     --r:#a8562a;--r-bg:#fbe3d4;--o:#2b5b86;--o-bg:#d7e7f5;
   }
   @media(prefers-color-scheme:dark){:root{
     --navy:#5b8fc0;--navy-2:#0d1b28;--orange:#f28b3a;
     --bg:#0b141d;--surface:#141f2b;--surface-2:#18242f;--ink:#e4edf5;--ink-soft:#93a6b6;--line:#26384a;
-    --done:#84c98f;--done-bg:#22331d;--out:#e6ad6a;--out-bg:#3a2a18;--band:#2a2013;--track:#22303f;
+    --done:#84c98f;--done-bg:#22331d;--out:#e6ad6a;--out-bg:#3a2a18;--over:#f0857a;--over-bg:#3d1f1c;--band:#2a2013;--track:#22303f;
     --w-bg:#22331d;--w:#8fc06f;--m-bg:#25401f;--m:#a5d484;--a-bg:#2c4a24;--a:#bfe09a;--r-bg:#3d281c;--r:#e8a878;--o-bg:#1e344a;--o:#8bb8e0;}}
-  :root[data-theme="light"]{--navy:#1A3A5C;--navy-2:#12293f;--orange:#E87722;--bg:#eef3f8;--surface:#fff;--surface-2:#f4f8fb;--ink:#1e2a35;--ink-soft:#5a6b7a;--line:#d5e0ea;--done:#2f7d3a;--done-bg:#dff0d8;--out:#b06a1f;--out-bg:#fbe6cf;--band:#fff4e6;--track:#dbe6f0;--w:#4f8a3d;--w-bg:#e2efda;--m:#2f6d3f;--m-bg:#c6e0b4;--a:#255a2a;--a-bg:#a9d08e;--r:#a8562a;--r-bg:#fbe3d4;--o:#2b5b86;--o-bg:#d7e7f5;}
-  :root[data-theme="dark"]{--navy:#5b8fc0;--navy-2:#0d1b28;--orange:#f28b3a;--bg:#0b141d;--surface:#141f2b;--surface-2:#18242f;--ink:#e4edf5;--ink-soft:#93a6b6;--line:#26384a;--done:#84c98f;--done-bg:#22331d;--out:#e6ad6a;--out-bg:#3a2a18;--band:#2a2013;--track:#22303f;--w-bg:#22331d;--w:#8fc06f;--m-bg:#25401f;--m:#a5d484;--a-bg:#2c4a24;--a:#bfe09a;--r-bg:#3d281c;--r:#e8a878;--o-bg:#1e344a;--o:#8bb8e0;}
+  :root[data-theme="light"]{--navy:#1A3A5C;--navy-2:#12293f;--orange:#E87722;--bg:#eef3f8;--surface:#fff;--surface-2:#f4f8fb;--ink:#1e2a35;--ink-soft:#5a6b7a;--line:#d5e0ea;--done:#2f7d3a;--done-bg:#dff0d8;--out:#b06a1f;--out-bg:#fbe6cf;--over:#c0392b;--over-bg:#fbe0dd;--band:#fff4e6;--track:#dbe6f0;--w:#4f8a3d;--w-bg:#e2efda;--m:#2f6d3f;--m-bg:#c6e0b4;--a:#255a2a;--a-bg:#a9d08e;--r:#a8562a;--r-bg:#fbe3d4;--o:#2b5b86;--o-bg:#d7e7f5;}
+  :root[data-theme="dark"]{--navy:#5b8fc0;--navy-2:#0d1b28;--orange:#f28b3a;--bg:#0b141d;--surface:#141f2b;--surface-2:#18242f;--ink:#e4edf5;--ink-soft:#93a6b6;--line:#26384a;--done:#84c98f;--done-bg:#22331d;--out:#e6ad6a;--out-bg:#3a2a18;--over:#f0857a;--over-bg:#3d1f1c;--band:#2a2013;--track:#22303f;--w-bg:#22331d;--w:#8fc06f;--m-bg:#25401f;--m:#a5d484;--a-bg:#2c4a24;--a:#bfe09a;--r-bg:#3d281c;--r:#e8a878;--o-bg:#1e344a;--o:#8bb8e0;}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
   .wrap{max-width:900px;margin:0 auto;padding:0 15px 60px}
@@ -23,17 +23,17 @@
   header.top h1{margin:0;font-size:22px;font-weight:800}
   header.top p{margin:6px 0 0;font-size:12.5px;color:#c9d9e8;max-width:60ch}
 
-  .tabs{display:flex;gap:6px;position:sticky;top:0;z-index:6;background:var(--bg);padding:12px 0 8px}
-  .tab{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:11px;padding:11px 8px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;transition:.15s}
+  .tabs{display:flex;gap:5px;position:sticky;top:0;z-index:6;background:var(--bg);padding:12px 0 8px}
+  .tab{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:11px;padding:10px 4px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;transition:.15s}
   .tab[aria-selected="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
   .tab:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
   .hidden{display:none}
 
-  .fleetstat{display:flex;gap:10px;margin-top:4px}
-  .stat{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 10px;text-align:center}
-  .stat b{display:block;font-size:23px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
-  .stat span{font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
-  .stat.g b{color:var(--done)} .stat.o b{color:var(--out)}
+  .fleetstat{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .stat{flex:1;min-width:72px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 8px;text-align:center}
+  .stat b{display:block;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+  .stat span{font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+  .stat.g b{color:var(--done)} .stat.o b{color:var(--out)} .stat.r b{color:var(--over)}
   h2.sectitle{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);font-weight:700;margin:20px 2px 10px}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px;cursor:pointer;transition:.15s;text-align:left;font-family:inherit;color:inherit}
@@ -47,7 +47,7 @@
   .ringrow .info{font-size:12.5px}
   .ringrow .info .out{color:var(--out);font-weight:700} .ringrow .info .ok{color:var(--done);font-weight:700}
   .badge{display:inline-block;margin-top:9px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
-  .badge.o{background:var(--out-bg);color:var(--out)} .badge.g{background:var(--done-bg);color:var(--done)}
+  .badge.o{background:var(--out-bg);color:var(--out)} .badge.g{background:var(--done-bg);color:var(--done)} .badge.r{background:var(--over-bg);color:var(--over)}
   .go{margin-top:10px;font-size:12px;color:var(--navy);font-weight:700}
   .back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--navy);font-weight:700;font-size:14px;cursor:pointer;padding:8px 2px;font-family:inherit}
   .back:focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:6px}
@@ -56,15 +56,20 @@
   .summary .meta{flex:1;min-width:0} .summary .meta h3{margin:0;font-size:18px;font-weight:800} .summary .meta p{margin:3px 0 0;font-size:12.5px;color:var(--ink-soft)}
   .signoff{flex:none;border:none;background:var(--navy);color:#fff;font-weight:700;font-size:13px;padding:10px 15px;border-radius:10px;cursor:pointer;font-family:inherit}
   .signoff:disabled{background:var(--done)} .signoff:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
-  .sec h4{margin:0;padding:11px 18px 6px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700}
+  .sec h4{margin:0;padding:11px 18px 6px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;display:flex;align-items:center;gap:8px}
+  .sec h4 .n{background:var(--surface-2);border:1px solid var(--line);border-radius:20px;padding:1px 8px;font-size:11px;color:var(--ink)}
+  .sec h4.rd{color:var(--over)} .sec h4.am{color:var(--out)}
   .item{display:flex;align-items:center;gap:12px;padding:9px 18px;border-top:1px solid var(--line);cursor:pointer}
   .sec .item:first-of-type{border-top:none}
   .box{width:22px;height:22px;border-radius:6px;flex:none;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:900;color:#fff}
   .item.done .box{background:var(--done);border-color:var(--done)}
   .item .txt{flex:1;min-width:0} .item .txt .j{font-size:13.5px} .item .txt .s{font-size:11.5px;color:var(--ink-soft);margin-top:1px}
   .pill{flex:none;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:20px}
-  .item.done .pill{background:var(--done-bg);color:var(--done)} .item:not(.done) .pill{background:var(--out-bg);color:var(--out)}
+  .pill.done{background:var(--done-bg);color:var(--done)} .pill.soon{background:var(--out-bg);color:var(--out)} .pill.overdue{background:var(--over-bg);color:var(--over)} .pill.booked{background:var(--o-bg);color:var(--o)}
+  .item.done .pill{background:var(--done-bg);color:var(--done)}
+  .boatchip{flex:none;font-size:11px;font-weight:700;background:var(--surface-2);color:var(--navy);padding:4px 9px;border-radius:20px;border:1px solid var(--line);white-space:nowrap}
   .note{padding:13px 18px;font-size:11.5px;color:var(--ink-soft);background:var(--band);border-top:1px solid var(--line)}
+  .allclear{padding:26px 18px;text-align:center;color:var(--done);font-weight:700;font-size:14px}
 
   .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin:6px 2px 8px}
   .chips{display:flex;flex-wrap:wrap;gap:7px}
@@ -72,8 +77,7 @@
   .chip .dot{width:9px;height:9px;border-radius:50%;flex:none}
   .chip[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
   .chip:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
-  .count{font-size:12.5px;color:var(--ink-soft);margin:10px 2px 4px;font-variant-numeric:tabular-nums}
-  .count b{color:var(--ink)}
+  .count{font-size:12.5px;color:var(--ink-soft);margin:10px 2px 4px;font-variant-numeric:tabular-nums} .count b{color:var(--ink)}
   .mhead{margin:18px 0 0}
   .mhead h3{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0;background:var(--navy);color:#fff;padding:10px 15px;border-radius:9px 9px 0 0;font-size:15px;font-weight:800;border-bottom:2px solid var(--orange)}
   .mhead h3 .tg{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#cfe0f0;text-align:right}
@@ -103,6 +107,7 @@
 
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" aria-selected="true" data-v="fleet">Fleet</button>
+    <button class="tab" role="tab" aria-selected="false" data-v="out">Outstanding</button>
     <button class="tab" role="tab" aria-selected="false" data-v="menu">Job Menu</button>
     <button class="tab" role="tab" aria-selected="false" data-v="how">How it works</button>
   </div>
@@ -111,8 +116,9 @@
     <div id="fleet">
       <div class="fleetstat">
         <div class="stat"><b id="s-boats">0</b><span>Boats</span></div>
-        <div class="stat g"><b id="s-done">0</b><span>Jobs done</span></div>
-        <div class="stat o"><b id="s-out">0</b><span>Outstanding</span></div>
+        <div class="stat g"><b id="s-done">0</b><span>Done</span></div>
+        <div class="stat r"><b id="s-over">0</b><span>Overdue</span></div>
+        <div class="stat o"><b id="s-soon">0</b><span>Due soon</span></div>
       </div>
       <h2 class="sectitle">The fleet</h2>
       <div class="grid" id="grid"></div>
@@ -121,6 +127,11 @@
       <button class="back" id="back">‹ All boats</button>
       <div class="board" id="board"></div>
     </div>
+  </section>
+
+  <section id="v-out" class="hidden">
+    <div class="howintro"><b>Everything outstanding across the whole fleet, in one place.</b> Overdue up top, coming up below. Tap any job to jump to that boat.</div>
+    <div class="board" id="outboard" style="margin-top:14px"></div>
   </section>
 
   <section id="v-menu" class="hidden">
@@ -143,22 +154,24 @@
     <div class="step"><div class="num">1</div><div><h4>Crew fill the End-of-Day report</h4><p>Just like today — they type what they did on each boat. No dropdowns, no categories to pick, nothing new to learn.</p></div></div>
     <div class="step"><div class="num">2</div><div><h4>The words get matched to the Job Menu</h4><p>"Full wash down" is recognised as <b>Scheduled → Wash down</b>. "Replaced bilge pump" as <b>Unscheduled → Plumbing</b>. The system tags it automatically.</p></div></div>
     <div class="step"><div class="num">3</div><div><h4>The job ticks itself DONE</h4><p>It appears on that boat's board — green, with the date and crew name straight off the card. Nobody ticks anything by hand.</p></div></div>
-    <div class="step"><div class="num">4</div><div><h4>You &amp; Jack sign off the month</h4><p>You just review each boat and hit <b>Sign off</b>. The outstanding jobs stand out in amber — nothing slips through.</p></div></div>
+    <div class="step"><div class="num">4</div><div><h4>You &amp; Jack sign off the month</h4><p>You just review each boat and hit <b>Sign off</b>. Overdue jobs stand out in red on the Outstanding tab — nothing slips through.</p></div></div>
   </section>
 
   <footer>Sandbox demo · live EOD form &amp; job cards untouched · sample match-up from recent cards</footer>
 </div>
 
 <script>
+const TODAY=8; // 8 July 2026
+/* job = [name, done(0/1), meta, dueDay?]  — dueDay used when not done */
 const V=[
- {n:"Everywhen",c:"Azimut 70",s:[["Monthly vessel checks (engines, bilges, lighting)",1,"2 Jul · Duncan"],["Clean raw-water sea strainers",1,"2 Jul · Bruce"],["Flush water maker / desalinator",1,"2 Jul · Bruce"],["Full wash down & detail",1,"5 Jul · Tyrone"],["Engine-room detail",1,"5 Jul · Tyrone"],["Polish stainless / brightwork",1,"6 Jul · Grace"],["Clean A/C air filters",1,"6 Jul · Bruce"],["Teak scrub / brighten",0,""],["Pump out grey / black water",0,""],["Tender detail & flush",0,""]],u:[["Aft crew-cabin A/C fault — replace FCU board",1,"4 Jul · Bruce"],["Fliteboard controllers — battery checks & set-up",1,"5 Jul · Grace"]]},
- {n:"Sea Ya",c:"Riviera",s:[["Full wash down (spin to wash port hull)",1,"3 Jul · Matt"],["Monthly vessel checks & bilge check",1,"3 Jul · Matt"],["Clean sea strainers",1,"3 Jul · Matt"],["Semco teak sealing",1,"6 Jul · Matt"],["Polish stainless / remove surface rust",1,"6 Jul · Matty"],["Interior deep clean",0,""],["Fender & line care",0,""],["Tender detail & flush",0,""]],u:[["Replace lift-platform anodes & mount bolts",1,"1 Jul · Duncan"]]},
- {n:"Andiamo",c:"Sunseeker",s:[["Full wash down & systems check",1,"2 Jul · Paloma"],["Start engines & run to warm",1,"2 Jul · Paloma"],["Flush desalinator",1,"2 Jul · Paloma"],["Fill freshwater tank",1,"2 Jul · Paloma"],["Engine-room detail",0,""],["Polish stainless",0,""],["Interior deep clean",0,""]],u:[["Install 2 new A/C condenser pumps (Versace Marina)",1,"4 Jul · Bruce"],["Fit mesh screen & secure loose covers, aft deck",1,"5 Jul · Paloma"]]},
- {n:"Ara Roa",c:"Nordhavn",s:[["Full wash down & scrub non-skid",1,"1 Jul · Adam"],["Flush water maker (SOP)",1,"1 Jul · Adam"],["Full vessel checks / run engines",1,"1 Jul · Jack"],["Polish stainless rails",1,"2 Jul · Adam"],["Flush all bathroom fixtures",0,""],["Pump out grey water",0,""],["Interior wipe down & tidy",0,""]],u:[["Steelhead davit hydraulic leak — Enzed callout",0,"booked"],["Wing engine investigation — mechanic booked",0,"booked"]]},
- {n:"Sheer Bliss",c:"Sunseeker",s:[["Full vessel wash down",1,"3 Jul · Tyrone"],["Service sea strainers & raw-water valves",1,"3 Jul · Stuart"],["Engine-room detail",1,"4 Jul · Tyrone"],["Full teak clean",1,"6 Jul · Tyrone"],["Polish stainless / treat rust",0,""],["Clean ER bilge",0,""],["Monthly systems check",0,""]],u:[["Stabiliser cooling-pump leak — remove, service, refit",1,"2 Jul · Stuart"]]},
- {n:"Abel Tasman III",c:"Warren 87",s:[["Full exterior deck wash & chamois",1,"3 Jul · Carl"],["Windows & stainless polish",1,"3 Jul · Carl"],["Interior clean, vacuum, wipe surfaces",1,"4 Jul · Carl"],["Clean air-con strainer",1,"4 Jul · Carl"],["Clean bathrooms",0,""],["Detailed tender clean & refuel",0,""],["Monthly systems check",0,""]],u:[["Main engines & genset service (contractor)",1,"2 Jul · ext"],["Fuel-leak diagnosis in engine valley",0,"booked"]]},
- {n:"SS88-Krystyna",c:"Sunseeker 88",s:[["Wash down — remove heavy bow stain",1,"2 Jul · Duncan"],["Service sea strainers",1,"2 Jul · Stuart"],["Refuel & post-checks",1,"2 Jul · Duncan"],["Monthly systems check",1,"3 Jul · Stuart"],["Polish stainless",0,""],["Engine-room detail",0,""]],u:[["Replace gen-set batteries; run engines post-service",1,"1 Jul · Stuart"]]},
- {n:"Flagship stock fleet",c:"Dealership",s:[["Boat-show detailing (SCIBS touch-ups)",1,"1 Jul · Tyrone"],["Full wash downs across stock",1,"2 Jul · Matty"],["Polish stainless / remove rust",1,"2 Jul · Grace"],["Teak clean & treatment",0,""],["Interior clean of stock boats",0,""]],u:[["Replace CO2 detectors (Predator 68)",1,"3 Jul · Bruce"],["Air-con drain blockage — diagnose",0,"booked"]]},
+ {n:"Everywhen",c:"Azimut 70",s:[["Monthly vessel checks (engines, bilges, lighting)",1,"2 Jul · Duncan"],["Clean raw-water sea strainers",1,"2 Jul · Bruce"],["Flush water maker / desalinator",1,"2 Jul · Bruce"],["Full wash down & detail",1,"5 Jul · Tyrone"],["Engine-room detail",1,"5 Jul · Tyrone"],["Polish stainless / brightwork",1,"6 Jul · Grace"],["Clean A/C air filters",1,"6 Jul · Bruce"],["Teak scrub / brighten",0,"",4],["Pump out grey / black water",0,"",10],["Tender detail & flush",0,"",12]],u:[["Aft crew-cabin A/C fault — replace FCU board",1,"4 Jul · Bruce"],["Fliteboard controllers — battery checks & set-up",1,"5 Jul · Grace"]]},
+ {n:"Sea Ya",c:"Riviera",s:[["Full wash down (spin to wash port hull)",1,"3 Jul · Matt"],["Monthly vessel checks & bilge check",1,"3 Jul · Matt"],["Clean sea strainers",1,"3 Jul · Matt"],["Semco teak sealing",1,"6 Jul · Matt"],["Polish stainless / remove surface rust",1,"6 Jul · Matty"],["Interior deep clean",0,"",6],["Fender & line care",0,"",15],["Tender detail & flush",0,"",18]],u:[["Replace lift-platform anodes & mount bolts",1,"1 Jul · Duncan"]]},
+ {n:"Andiamo",c:"Sunseeker",s:[["Full wash down & systems check",1,"2 Jul · Paloma"],["Start engines & run to warm",1,"2 Jul · Paloma"],["Flush desalinator",1,"2 Jul · Paloma"],["Fill freshwater tank",1,"2 Jul · Paloma"],["Engine-room detail",0,"",7],["Polish stainless",0,"",14],["Interior deep clean",0,"",20]],u:[["Install 2 new A/C condenser pumps (Versace Marina)",1,"4 Jul · Bruce"],["Fit mesh screen & secure loose covers, aft deck",1,"5 Jul · Paloma"]]},
+ {n:"Ara Roa",c:"Nordhavn",s:[["Full wash down & scrub non-skid",1,"1 Jul · Adam"],["Flush water maker (SOP)",1,"1 Jul · Adam"],["Full vessel checks / run engines",1,"1 Jul · Jack"],["Polish stainless rails",1,"2 Jul · Adam"],["Flush all bathroom fixtures",0,"",5],["Pump out grey water",0,"",12],["Interior wipe down & tidy",0,"",16]],u:[["Steelhead davit hydraulic leak — Enzed callout",0,"booked",9],["Wing engine investigation — mechanic booked",0,"booked",11]]},
+ {n:"Sheer Bliss",c:"Sunseeker",s:[["Full vessel wash down",1,"3 Jul · Tyrone"],["Service sea strainers & raw-water valves",1,"3 Jul · Stuart"],["Engine-room detail",1,"4 Jul · Tyrone"],["Full teak clean",1,"6 Jul · Tyrone"],["Polish stainless / treat rust",0,"",6],["Clean ER bilge",0,"",11],["Monthly systems check",0,"",15]],u:[["Stabiliser cooling-pump leak — remove, service, refit",1,"2 Jul · Stuart"]]},
+ {n:"Abel Tasman III",c:"Warren 87",s:[["Full exterior deck wash & chamois",1,"3 Jul · Carl"],["Windows & stainless polish",1,"3 Jul · Carl"],["Interior clean, vacuum, wipe surfaces",1,"4 Jul · Carl"],["Clean air-con strainer",1,"4 Jul · Carl"],["Clean bathrooms",0,"",7],["Detailed tender clean & refuel",0,"",13],["Monthly systems check",0,"",17]],u:[["Main engines & genset service (contractor)",1,"2 Jul · ext"],["Fuel-leak diagnosis in engine valley",0,"booked",10]]},
+ {n:"SS88-Krystyna",c:"Sunseeker 88",s:[["Wash down — remove heavy bow stain",1,"2 Jul · Duncan"],["Service sea strainers",1,"2 Jul · Stuart"],["Refuel & post-checks",1,"2 Jul · Duncan"],["Monthly systems check",1,"3 Jul · Stuart"],["Polish stainless",0,"",9],["Engine-room detail",0,"",14]],u:[["Replace gen-set batteries; run engines post-service",1,"1 Jul · Stuart"]]},
+ {n:"Flagship stock fleet",c:"Dealership",s:[["Boat-show detailing (SCIBS touch-ups)",1,"1 Jul · Tyrone"],["Full wash downs across stock",1,"2 Jul · Matty"],["Polish stainless / remove rust",1,"2 Jul · Grace"],["Teak clean & treatment",0,"",5],["Interior clean of stock boats",0,"",12]],u:[["Replace CO2 detectors (Predator 68)",1,"3 Jul · Bruce"],["Air-con drain blockage — diagnose",0,"booked",10]]},
 ];
 
 const W="Weekly",MO="Monthly",AN="Annually",RQ="As required",ON="One-off";
@@ -200,19 +213,27 @@ const MENU=[
 
 const $=id=>document.getElementById(id);
 const signed={};
-function stats(v){const d=v.s.filter(x=>x[1]).length;return{d,t:v.s.length,o:v.s.length-d,p:Math.round(d/v.s.length*100)};}
+const dueStr=d=>`Due ${d} Jul`;
+function stats(v){
+  const done=v.s.filter(x=>x[1]).length;
+  const over=v.s.filter(x=>!x[1]&&x[3]<TODAY).length;
+  const soon=v.s.filter(x=>!x[1]&&x[3]>=TODAY).length;
+  return{d:done,t:v.s.length,o:v.s.length-done,over,soon,p:Math.round(done/v.s.length*100)};
+}
 
 function renderFleet(){
-  let done=0,out=0; V.forEach(v=>{const s=stats(v);done+=s.d;out+=s.o;});
-  $("s-boats").textContent=V.length;$("s-done").textContent=done;$("s-out").textContent=out;
+  let done=0,over=0,soon=0; V.forEach(v=>{const s=stats(v);done+=s.d;over+=s.over;soon+=s.soon;});
+  $("s-boats").textContent=V.length;$("s-done").textContent=done;$("s-over").textContent=over;$("s-soon").textContent=soon;
   const g=$("grid");g.innerHTML="";
   V.forEach((v,i)=>{const st=stats(v);const b=document.createElement("button");b.className="card";
+    let badge = st.over?`<span class="badge r">${st.over} overdue</span>`
+              : st.o?`<span class="badge o">${st.o} due soon</span>`
+              : `<span class="badge g">Ready to sign off</span>`;
     b.innerHTML=`<div class="cn"><b>${v.n}</b><small>${v.c}</small></div>
       <div class="ringrow"><div class="ring" style="--p:${st.p}"><i>${st.d}/${st.t}</i></div>
       <div class="info">${st.o?`<span class="out">${st.o} outstanding</span>`:`<span class="ok">All done</span>`}<br>
       <span style="color:var(--ink-soft)">${st.d} of ${st.t} monthly jobs</span></div></div>
-      <span class="badge ${st.o?'o':'g'}">${st.o?st.o+' to finish':'Ready to sign off'}</span>
-      <div class="go">Open board ›</div>`;
+      ${badge}<div class="go">Open board ›</div>`;
     b.onclick=()=>openBoat(i);g.appendChild(b);});
   $("fleet").classList.remove("hidden");$("detail").classList.add("hidden");
   $("htitle").textContent="Fleet Dashboard";$("hsub").textContent="Every boat's month at a glance. Tap a boat to see what's done and what's outstanding.";
@@ -221,20 +242,48 @@ function openBoat(i){
   const v=V[i],st=stats(v);
   $("htitle").textContent=v.n;$("hsub").textContent=v.c+" · July 2026 maintenance board";
   let h=`<div class="summary"><div class="ring" style="--p:${st.p}"><i>${st.d}/${st.t}</i></div>
-    <div class="meta"><h3>${v.n}</h3><p>${st.d} of ${st.t} scheduled jobs done${st.o?` · ${st.o} outstanding`:` · all complete`}</p></div>
+    <div class="meta"><h3>${v.n}</h3><p>${st.d} of ${st.t} scheduled done${st.over?` · <b style="color:var(--over)">${st.over} overdue</b>`:''}${st.soon?` · ${st.soon} due soon`:''}${st.o?'':' · all complete'}</p></div>
     <button class="signoff" id="so" ${signed[i]?'disabled':''}>${signed[i]?'✓ Signed off':'Sign off month'}</button></div>
     <div class="sec"><h4>Scheduled maintenance — due this month</h4>`;
-  v.s.forEach((s,idx)=>{h+=`<div class="item ${s[1]?'done':''}" data-k="${idx}"><span class="box">✓</span><span class="txt"><span class="j">${s[0]}</span>${s[2]?`<span class="s">${s[2]}</span>`:''}</span><span class="pill">${s[1]?'Done':'Outstanding'}</span></div>`;});
+  v.s.forEach((s,idx)=>{
+    const done=s[1]; let pill,meta;
+    if(done){pill='<span class="pill done">Done</span>';meta=s[2];}
+    else if(s[3]<TODAY){pill='<span class="pill overdue">Overdue</span>';meta=dueStr(s[3]);}
+    else{pill='<span class="pill soon">Due soon</span>';meta=dueStr(s[3]);}
+    h+=`<div class="item ${done?'done':''}" data-k="${idx}"><span class="box">✓</span><span class="txt"><span class="j">${s[0]}</span><span class="s">${meta}</span></span>${pill}</div>`;});
   h+=`</div><div class="sec"><h4>Unscheduled — logged this month</h4>`;
-  v.u.forEach(u=>{h+=`<div class="item ${u[1]?'done':''}" style="cursor:default"><span class="box">✓</span><span class="txt"><span class="j">${u[0]}</span>${u[2]?`<span class="s">${u[2]}</span>`:''}</span><span class="pill">${u[1]?'Done':'Booked'}</span></div>`;});
+  v.u.forEach(u=>{const done=u[1];const pill=done?'<span class="pill done">Done</span>':'<span class="pill booked">Booked</span>';const meta=done?u[2]:dueStr(u[3]);
+    h+=`<div class="item ${done?'done':''}" style="cursor:default"><span class="box">✓</span><span class="txt"><span class="j">${u[0]}</span><span class="s">${meta}</span></span>${pill}</div>`;});
   h+=`</div><div class="note"><b>How this fills in:</b> ticks come from the words crew already type on the End-of-Day report — no dropdowns. This is a sample. Tap any scheduled job to try ticking it.</div>`;
   $("board").innerHTML=h;
-  $("board").querySelectorAll('.sec:first-of-type .item').forEach(el=>{el.onclick=()=>{const k=+el.dataset.k;v.s[k][1]=v.s[k][1]?0:1;v.s[k][2]=v.s[k][1]?(v.s[k][2]||'today · you'):'';openBoat(i);};});
+  $("board").querySelectorAll('.sec:first-of-type .item').forEach(el=>{el.onclick=()=>{const k=+el.dataset.k;const j=v.s[k];j[1]=j[1]?0:1;if(j[1]){j[2]='today · you';}openBoat(i);};});
   const so=$("so");if(so&&!signed[i])so.onclick=()=>{signed[i]=true;openBoat(i);};
   $("fleet").classList.add("hidden");$("detail").classList.remove("hidden");window.scrollTo(0,0);
 }
 $("back").onclick=()=>{renderFleet();window.scrollTo(0,0);};
 
+/* Outstanding — fleet-wide */
+function renderOutstanding(){
+  const overdue=[],upcoming=[];
+  V.forEach((v,i)=>{
+    v.s.forEach(s=>{if(!s[1]){(s[3]<TODAY?overdue:upcoming).push({b:v.n,i,j:s[0],due:s[3],kind:'sched'});}});
+    v.u.forEach(u=>{if(!u[1]){upcoming.push({b:v.n,i,j:u[0],due:u[3],kind:'booked'});}});
+  });
+  overdue.sort((a,b)=>a.due-b.due); upcoming.sort((a,b)=>a.due-b.due);
+  const row=o=>{const pill=o.kind==='booked'?'<span class="pill booked">Booked</span>':(o.due<TODAY?'<span class="pill overdue">Overdue</span>':'<span class="pill soon">Due soon</span>');
+    return `<div class="item oitem" data-i="${o.i}"><span class="boatchip">${o.b}</span><span class="txt"><span class="j">${o.j}</span><span class="s">${dueStr(o.due)}</span></span>${pill}</div>`;};
+  let h='';
+  h+=`<div class="sec"><h4 class="rd">Overdue <span class="n">${overdue.length}</span></h4>`;
+  h+= overdue.length?overdue.map(row).join(''):'<div class="allclear">Nothing overdue — all caught up 🎉</div>';
+  h+=`</div><div class="sec"><h4 class="am">Coming up <span class="n">${upcoming.length}</span></h4>`;
+  h+= upcoming.length?upcoming.map(row).join(''):'<div class="allclear">Nothing scheduled 🎉</div>';
+  h+=`</div>`;
+  $("outboard").innerHTML=h;
+  $("outboard").querySelectorAll('.oitem').forEach(el=>{el.onclick=()=>goBoat(+el.dataset.i);});
+}
+function goBoat(i){selectTab('fleet');openBoat(i);}
+
+/* Menu */
 const menuEl=$("menu");
 MENU.forEach(([head,tag,subs])=>{
   const h=document.createElement('div');h.className='mhead';
@@ -255,18 +304,20 @@ $("chips").addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)
   $("chips").querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b));applyMenu(b.dataset.f);});
 applyMenu('all');
 
-document.querySelector('.tabs').addEventListener('click',e=>{
-  const t=e.target.closest('.tab');if(!t)return;
-  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===t));
-  const v=t.dataset.v;
+/* Tabs */
+function selectTab(v){
+  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x.dataset.v===v));
   $("v-fleet").classList.toggle('hidden',v!=='fleet');
+  $("v-out").classList.toggle('hidden',v!=='out');
   $("v-menu").classList.toggle('hidden',v!=='menu');
   $("v-how").classList.toggle('hidden',v!=='how');
   if(v==='fleet'){renderFleet();}
+  else if(v==='out'){renderOutstanding();$("htitle").textContent="Outstanding";$("hsub").textContent="Everything the whole fleet still needs — overdue first.";}
   else if(v==='menu'){$("htitle").textContent="Job Menu";$("hsub").textContent="The master list — every job, grouped and tagged by how often it comes around.";}
   else{$("htitle").textContent="How it works";$("hsub").textContent="From crew job card to signed-off dashboard — automatically.";}
   window.scrollTo(0,0);
-});
+}
+document.querySelector('.tabs').addEventListener('click',e=>{const t=e.target.closest('.tab');if(t)selectTab(t.dataset.v);});
 
 renderFleet();
 </script>
