@@ -286,7 +286,8 @@ function openBoat(i){
   const match=it=> boatFilter==='all' || (boatFilter==='soon'?(it.status==='soon'||it.status==='booked'):it.status===boatFilter);
   const shown=items.filter(match);
   const pillOf=s=>s==='done'?'<span class="pill done">Done</span>':s==='overdue'?'<span class="pill overdue">Overdue</span>':s==='booked'?'<span class="pill booked">Booked</span>':'<span class="pill soon">Due soon</span>';
-  const chip=(key,label,n)=>`<button class="chip" data-bf="${key}" aria-pressed="${boatFilter===key}">${label}${n!==undefined?` <span class="n">${n}</span>`:''}</button>`;
+  const dotFor=k=>k==='overdue'?'<span class="dot" style="background:var(--over)"></span>':k==='soon'?'<span class="dot" style="background:var(--out)"></span>':k==='done'?'<span class="dot" style="background:var(--done)"></span>':'';
+  const chip=(key,label,n)=>`<button class="chip" data-bf="${key}" aria-pressed="${boatFilter===key}">${dotFor(key)}${label}${n!==undefined?` <span class="n">${n}</span>`:''}</button>`;
   let h=`<div class="summary"><div class="ring" style="--p:${st.p}"><i>${st.d}/${st.t}</i></div>
     <div class="meta"><h3>${v.n}</h3><p>${st.d} of ${st.t} scheduled done${st.over?` · <b style="color:var(--over)">${st.over} overdue</b>`:''}${st.soon?` · ${st.soon} due soon`:''}${st.o?'':' · all complete'}</p></div>
     <button class="signoff" id="so" ${signed[i]?'disabled':''}>${signed[i]?'✓ Signed off':'Sign off month'}</button></div>`;
