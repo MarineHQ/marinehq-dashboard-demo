@@ -70,6 +70,8 @@
   .boatchip{flex:none;font-size:11px;font-weight:700;background:var(--surface-2);color:var(--navy);padding:4px 9px;border-radius:20px;border:1px solid var(--line);white-space:nowrap}
   .note{padding:13px 18px;font-size:11.5px;color:var(--ink-soft);background:var(--band);border-top:1px solid var(--line)}
   .allclear{padding:26px 18px;text-align:center;color:var(--done);font-weight:700;font-size:14px}
+  .seeall{display:block;width:100%;text-align:center;background:var(--surface-2);border:none;border-top:1px solid var(--line);color:var(--navy);font-weight:700;font-size:12.5px;padding:11px;cursor:pointer;font-family:inherit}
+  .seeall:hover{background:var(--band)} .seeall:focus-visible{outline:2px solid var(--orange);outline-offset:-2px}
 
   .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin:6px 2px 8px}
   .chips{display:flex;flex-wrap:wrap;gap:7px}
@@ -120,6 +122,7 @@
         <div class="stat r"><b id="s-over">0</b><span>Overdue</span></div>
         <div class="stat o"><b id="s-soon">0</b><span>Due soon</span></div>
       </div>
+      <div id="attention" style="margin-top:14px"></div>
       <h2 class="sectitle">The fleet</h2>
       <div class="grid" id="grid"></div>
     </div>
@@ -224,6 +227,17 @@ function stats(v){
 function renderFleet(){
   let done=0,over=0,soon=0; V.forEach(v=>{const s=stats(v);done+=s.d;over+=s.over;soon+=s.soon;});
   $("s-boats").textContent=V.length;$("s-done").textContent=done;$("s-over").textContent=over;$("s-soon").textContent=soon;
+  // Needs-attention panel (overdue across the whole fleet)
+  const overdue=[]; V.forEach((v,i)=>v.s.forEach(s=>{if(!s[1]&&s[3]<TODAY)overdue.push({b:v.n,i,j:s[0],due:s[3]});}));
+  overdue.sort((a,b)=>a.due-b.due);
+  const att=$("attention");
+  if(overdue.length){
+    att.innerHTML=`<div class="board"><div class="sec"><h4 class="rd">&#9888; Needs attention &mdash; overdue <span class="n">${overdue.length}</span></h4>`+
+      overdue.map(o=>`<div class="item oitem" data-i="${o.i}"><span class="boatchip">${o.b}</span><span class="txt"><span class="j">${o.j}</span><span class="s">${dueStr(o.due)}</span></span><span class="pill overdue">Overdue</span></div>`).join('')+
+      `</div><button class="seeall" id="seeall">See everything outstanding &rsaquo;</button></div>`;
+    att.querySelectorAll('.oitem').forEach(el=>el.onclick=()=>openBoat(+el.dataset.i));
+    $("seeall").onclick=()=>selectTab('out');
+  } else { att.innerHTML=`<div class="board"><div class="allclear">Nothing overdue across the fleet &mdash; all caught up &#127881;</div></div>`; }
   const g=$("grid");g.innerHTML="";
   V.forEach((v,i)=>{const st=stats(v);const b=document.createElement("button");b.className="card";
     let badge = st.over?`<span class="badge r">${st.over} overdue</span>`
