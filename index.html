@@ -72,7 +72,8 @@
   .pill{flex:none;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:20px}
   .pill.done{background:var(--done-bg);color:var(--done)} .pill.soon{background:var(--out-bg);color:var(--out)} .pill.overdue{background:var(--over-bg);color:var(--over)} .pill.booked{background:var(--o-bg);color:var(--o)}
   .item.done .pill{background:var(--done-bg);color:var(--done)}
-  .boatchip{flex:none;font-size:11px;font-weight:700;background:var(--surface-2);color:var(--navy);padding:4px 9px;border-radius:20px;border:1px solid var(--line);white-space:nowrap}
+  .boatchip{flex:none;font-size:11px;font-weight:700;background:var(--surface-2);color:var(--ink);padding:4px 9px 4px 8px;border-radius:20px;border:1.5px solid var(--line);white-space:nowrap;display:inline-flex;align-items:center}
+  .boatchip .bdot{width:8px;height:8px;border-radius:50%;margin-right:6px;flex:none}
   .note{padding:13px 18px;font-size:11.5px;color:var(--ink-soft);background:var(--band);border-top:1px solid var(--line)}
   .allclear{padding:26px 18px;text-align:center;color:var(--done);font-weight:700;font-size:14px}
   .seeall{display:block;width:100%;text-align:center;background:var(--surface-2);border:none;border-top:1px solid var(--line);color:var(--navy);font-weight:700;font-size:12.5px;padding:11px;cursor:pointer;font-family:inherit}
@@ -227,6 +228,9 @@ const MENU=[
 const $=id=>document.getElementById(id);
 const signed={};
 const dueStr=d=>`Due ${d} Jul`;
+// Per-boat identity colour (starting palette from the Google Calendar colours)
+const BOAT_COL={"Everywhen":"#0B7CC1","Sea Ya":"#0B8043","Andiamo":"#8E24AA","Ara Roa":"#E65100","Sheer Bliss":"#3F51B5","Abel Tasman III":"#00838F","SS88-Krystyna":"#C2185B","Flagship stock fleet":"#546E7A"};
+const boatChip=name=>{const c=BOAT_COL[name]||'var(--ink-soft)';return `<span class="boatchip" style="border-color:${c}"><span class="bdot" style="background:${c}"></span>${name}</span>`;};
 function stats(v){
   const done=v.s.filter(x=>x[1]).length;
   const over=v.s.filter(x=>!x[1]&&x[3]<TODAY).length;
@@ -243,7 +247,7 @@ function renderFleet(){
   const att=$("attention");
   if(overdue.length){
     att.innerHTML=`<div class="board"><div class="sec"><h4 class="rd">&#9888; Needs attention &mdash; overdue <span class="n">${overdue.length}</span></h4>`+
-      overdue.map(o=>`<div class="item oitem" data-i="${o.i}"><span class="boatchip">${o.b}</span><span class="txt"><span class="j">${o.j}</span><span class="s">${dueStr(o.due)}</span></span><span class="pill overdue">Overdue</span></div>`).join('')+
+      overdue.map(o=>`<div class="item oitem" data-i="${o.i}">${boatChip(o.b)}<span class="txt"><span class="j">${o.j}</span><span class="s">${dueStr(o.due)}</span></span><span class="pill overdue">Overdue</span></div>`).join('')+
       `</div><button class="seeall" id="seeall">See everything outstanding &rsaquo;</button></div>`;
     att.querySelectorAll('.oitem').forEach(el=>el.onclick=()=>openBoat(+el.dataset.i));
     $("seeall").onclick=()=>selectTab('out');
@@ -251,12 +255,11 @@ function renderFleet(){
   const g=$("grid");g.innerHTML="";
   V.forEach((v,i)=>{const st=stats(v);const b=document.createElement("button");
     const state = st.over?'red':st.o?'amber':'green';
-    const dotc = st.over?'over':st.o?'out':'done';
     b.className="card st-"+state;
     let badge = st.over?`<span class="badge r">${st.over} overdue</span>`
               : st.o?`<span class="badge o">${st.o} due soon</span>`
               : `<span class="badge g">Ready to sign off</span>`;
-    b.innerHTML=`<div class="cn"><b><span class="sdot" style="background:var(--${dotc})"></span>${v.n}</b><small>${v.c}</small></div>
+    b.innerHTML=`<div class="cn"><b><span class="sdot" style="background:${BOAT_COL[v.n]||'var(--ink-soft)'}"></span>${v.n}</b><small>${v.c}</small></div>
       <div class="ringrow"><div class="ring" style="--p:${st.p}"><i>${st.d}/${st.t}</i></div>
       <div class="info">${st.o?`<span class="out">${st.o} outstanding</span>`:`<span class="ok">All done</span>`}<br>
       <span style="color:var(--ink-soft)">${st.d} of ${st.t} monthly jobs</span></div></div>
@@ -298,7 +301,7 @@ function renderOutstanding(){
   });
   overdue.sort((a,b)=>a.due-b.due); upcoming.sort((a,b)=>a.due-b.due);
   const row=o=>{const pill=o.kind==='booked'?'<span class="pill booked">Booked</span>':(o.due<TODAY?'<span class="pill overdue">Overdue</span>':'<span class="pill soon">Due soon</span>');
-    return `<div class="item oitem" data-i="${o.i}"><span class="boatchip">${o.b}</span><span class="txt"><span class="j">${o.j}</span><span class="s">${dueStr(o.due)}</span></span>${pill}</div>`;};
+    return `<div class="item oitem" data-i="${o.i}">${boatChip(o.b)}<span class="txt"><span class="j">${o.j}</span><span class="s">${dueStr(o.due)}</span></span>${pill}</div>`;};
   let h='';
   h+=`<div class="sec"><h4 class="rd">Overdue <span class="n">${overdue.length}</span></h4>`;
   h+= overdue.length?overdue.map(row).join(''):'<div class="allclear">Nothing overdue — all caught up 🎉</div>';
