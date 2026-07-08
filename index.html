@@ -1,0 +1,179 @@
+<title>Marine HQ — Fleet Dashboard (Sandbox)</title>
+<style>
+  :root{
+    --navy:#1A3A5C;--navy-2:#12293f;--orange:#E87722;
+    --bg:#eef3f8;--surface:#ffffff;--surface-2:#f4f8fb;--ink:#1e2a35;--ink-soft:#5a6b7a;--line:#d5e0ea;
+    --done:#2f7d3a;--done-bg:#dff0d8;--out:#b06a1f;--out-bg:#fbe6cf;--band:#fff4e6;--track:#dbe6f0;
+  }
+  @media(prefers-color-scheme:dark){:root{
+    --navy:#5b8fc0;--navy-2:#0d1b28;--orange:#f28b3a;
+    --bg:#0b141d;--surface:#141f2b;--surface-2:#18242f;--ink:#e4edf5;--ink-soft:#93a6b6;--line:#26384a;
+    --done:#84c98f;--done-bg:#22331d;--out:#e6ad6a;--out-bg:#3a2a18;--band:#2a2013;--track:#22303f;}}
+  :root[data-theme="light"]{--navy:#1A3A5C;--navy-2:#12293f;--orange:#E87722;--bg:#eef3f8;--surface:#fff;--surface-2:#f4f8fb;--ink:#1e2a35;--ink-soft:#5a6b7a;--line:#d5e0ea;--done:#2f7d3a;--done-bg:#dff0d8;--out:#b06a1f;--out-bg:#fbe6cf;--band:#fff4e6;--track:#dbe6f0;}
+  :root[data-theme="dark"]{--navy:#5b8fc0;--navy-2:#0d1b28;--orange:#f28b3a;--bg:#0b141d;--surface:#141f2b;--surface-2:#18242f;--ink:#e4edf5;--ink-soft:#93a6b6;--line:#26384a;--done:#84c98f;--done-bg:#22331d;--out:#e6ad6a;--out-bg:#3a2a18;--band:#2a2013;--track:#22303f;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
+  .wrap{max-width:900px;margin:0 auto;padding:0 15px 60px}
+  .ribbon{background:repeating-linear-gradient(45deg,var(--orange),var(--orange) 12px,#d9691a 12px,#d9691a 24px);
+    color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:6px;text-shadow:0 1px 1px rgba(0,0,0,.3)}
+  header.top{background:linear-gradient(180deg,var(--navy),var(--navy-2));color:#fff;padding:16px 20px 18px;border-bottom:3px solid var(--orange);border-radius:0 0 14px 14px}
+  .kick{text-transform:uppercase;letter-spacing:.18em;font-size:10px;font-weight:700;color:var(--orange);margin:0 0 5px}
+  header.top h1{margin:0;font-size:22px;font-weight:800}
+  header.top p{margin:6px 0 0;font-size:12.5px;color:#c9d9e8;max-width:60ch}
+
+  .fleetstat{display:flex;gap:10px;margin-top:14px}
+  .stat{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-align:center}
+  .stat b{display:block;font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+  .stat span{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  .stat.g b{color:var(--done)} .stat.o b{color:var(--out)}
+
+  h2.sectitle{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);font-weight:700;margin:22px 2px 10px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px;cursor:pointer;transition:.15s;text-align:left;font-family:inherit;color:inherit}
+  .card:hover{border-color:var(--navy);transform:translateY(-2px);box-shadow:0 6px 18px rgba(16,41,63,.1)}
+  .card:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+  .card .cn{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .card .cn b{font-size:17px;font-weight:800} .card .cn small{font-size:11px;color:var(--ink-soft)}
+  .ringrow{display:flex;align-items:center;gap:12px;margin-top:12px}
+  .ring{--p:0;width:56px;height:56px;border-radius:50%;flex:none;background:conic-gradient(var(--done) calc(var(--p)*1%),var(--track) 0);display:grid;place-items:center}
+  .ring i{width:42px;height:42px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-size:12.5px;font-weight:800;font-style:normal;font-variant-numeric:tabular-nums}
+  .ringrow .info{font-size:12.5px}
+  .ringrow .info .out{color:var(--out);font-weight:700} .ringrow .info .ok{color:var(--done);font-weight:700}
+  .badge{display:inline-block;margin-top:9px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+  .badge.o{background:var(--out-bg);color:var(--out)} .badge.g{background:var(--done-bg);color:var(--done)}
+  .go{margin-top:10px;font-size:12px;color:var(--navy);font-weight:700}
+
+  /* detail */
+  .back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--navy);font-weight:700;font-size:14px;cursor:pointer;padding:14px 2px 6px;font-family:inherit}
+  .back:focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:6px}
+  .board{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 2px 14px rgba(16,41,63,.06)}
+  .summary{display:flex;align-items:center;gap:15px;padding:16px 18px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+  .summary .meta{flex:1;min-width:0} .summary .meta h3{margin:0;font-size:18px;font-weight:800} .summary .meta p{margin:3px 0 0;font-size:12.5px;color:var(--ink-soft)}
+  .signoff{flex:none;border:none;background:var(--navy);color:#fff;font-weight:700;font-size:13px;padding:10px 15px;border-radius:10px;cursor:pointer;font-family:inherit}
+  .signoff:disabled{background:var(--done)} .signoff:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+  .sec h4{margin:0;padding:11px 18px 6px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700}
+  .item{display:flex;align-items:center;gap:12px;padding:9px 18px;border-top:1px solid var(--line);cursor:pointer}
+  .sec .item:first-of-type{border-top:none}
+  .box{width:22px;height:22px;border-radius:6px;flex:none;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:900;color:#fff}
+  .item.done .box{background:var(--done);border-color:var(--done)}
+  .item .txt{flex:1;min-width:0} .item .txt .j{font-size:13.5px} .item .txt .s{font-size:11.5px;color:var(--ink-soft);margin-top:1px}
+  .pill{flex:none;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:20px}
+  .item.done .pill{background:var(--done-bg);color:var(--done)} .item:not(.done) .pill{background:var(--out-bg);color:var(--out)}
+  .note{padding:13px 18px;font-size:11.5px;color:var(--ink-soft);background:var(--band);border-top:1px solid var(--line)}
+  .hidden{display:none}
+  footer{margin-top:26px;text-align:center;font-size:11.5px;color:var(--ink-soft)}
+</style>
+
+<div class="ribbon">Sandbox · Test Draft · not connected to the live EOD system</div>
+<div class="wrap">
+  <header class="top">
+    <p class="kick">Marine HQ · Fleet Maintenance · July 2026</p>
+    <h1 id="htitle">Fleet Dashboard</h1>
+    <p id="hsub">Every boat's month at a glance. Tap a boat to see what's done and what's outstanding, ready to sign off.</p>
+  </header>
+
+  <!-- FLEET VIEW -->
+  <div id="fleet">
+    <div class="fleetstat">
+      <div class="stat"><b id="s-boats">0</b><span>Boats</span></div>
+      <div class="stat g"><b id="s-done">0</b><span>Jobs done</span></div>
+      <div class="stat o"><b id="s-out">0</b><span>Outstanding</span></div>
+    </div>
+    <h2 class="sectitle">The fleet</h2>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- DETAIL VIEW -->
+  <div id="detail" class="hidden">
+    <button class="back" id="back">‹ All boats</button>
+    <div class="board" id="board"></div>
+  </div>
+
+  <footer>Sandbox demo · live EOD form &amp; job cards untouched · sample match-up from recent cards</footer>
+</div>
+
+<script>
+const M=1,R=0;
+const V=[
+ {n:"Everywhen",c:"Azimut 70",
+  s:[["Monthly vessel checks (engines, bilges, lighting)",1,"2 Jul · Duncan"],["Clean raw-water sea strainers",1,"2 Jul · Bruce"],["Flush water maker / desalinator",1,"2 Jul · Bruce"],["Full wash down & detail",1,"5 Jul · Tyrone"],["Engine-room detail",1,"5 Jul · Tyrone"],["Polish stainless / brightwork",1,"6 Jul · Grace"],["Clean A/C air filters",1,"6 Jul · Bruce"],["Teak scrub / brighten",0,""],["Pump out grey / black water",0,""],["Tender detail & flush",0,""]],
+  u:[["Aft crew-cabin A/C fault — replace FCU board",1,"4 Jul · Bruce"],["Fliteboard controllers — battery checks & set-up",1,"5 Jul · Grace"]]},
+ {n:"Sea Ya",c:"Riviera",
+  s:[["Full wash down (spin to wash port hull)",1,"3 Jul · Matt"],["Monthly vessel checks & bilge check",1,"3 Jul · Matt"],["Clean sea strainers",1,"3 Jul · Matt"],["Semco teak sealing",1,"6 Jul · Matt"],["Polish stainless / remove surface rust",1,"6 Jul · Matty"],["Interior deep clean",0,""],["Fender & line care",0,""],["Tender detail & flush",0,""]],
+  u:[["Replace lift-platform anodes & mount bolts",1,"1 Jul · Duncan"]]},
+ {n:"Andiamo",c:"Sunseeker",
+  s:[["Full wash down & systems check",1,"2 Jul · Paloma"],["Start engines & run to warm",1,"2 Jul · Paloma"],["Flush desalinator",1,"2 Jul · Paloma"],["Fill freshwater tank",1,"2 Jul · Paloma"],["Engine-room detail",0,""],["Polish stainless",0,""],["Interior deep clean",0,""]],
+  u:[["Install 2 new A/C condenser pumps (Versace Marina)",1,"4 Jul · Bruce"],["Fit mesh screen & secure loose covers, aft deck",1,"5 Jul · Paloma"]]},
+ {n:"Ara Roa",c:"Nordhavn",
+  s:[["Full wash down & scrub non-skid",1,"1 Jul · Adam"],["Flush water maker (SOP)",1,"1 Jul · Adam"],["Full vessel checks / run engines",1,"1 Jul · Jack"],["Polish stainless rails",1,"2 Jul · Adam"],["Flush all bathroom fixtures",0,""],["Pump out grey water",0,""],["Interior wipe down & tidy",0,""]],
+  u:[["Steelhead davit hydraulic leak — Enzed callout",0,"booked"],["Wing engine investigation — mechanic booked",0,"booked"]]},
+ {n:"Sheer Bliss",c:"Sunseeker",
+  s:[["Full vessel wash down",1,"3 Jul · Tyrone"],["Service sea strainers & raw-water valves",1,"3 Jul · Stuart"],["Engine-room detail",1,"4 Jul · Tyrone"],["Full teak clean",1,"6 Jul · Tyrone"],["Polish stainless / treat rust",0,""],["Clean ER bilge",0,""],["Monthly systems check",0,""]],
+  u:[["Stabiliser cooling-pump leak — remove, service, refit",1,"2 Jul · Stuart"]]},
+ {n:"Abel Tasman III",c:"Warren 87",
+  s:[["Full exterior deck wash & chamois",1,"3 Jul · Carl"],["Windows & stainless polish",1,"3 Jul · Carl"],["Interior clean, vacuum, wipe surfaces",1,"4 Jul · Carl"],["Clean air-con strainer",1,"4 Jul · Carl"],["Clean bathrooms",0,""],["Detailed tender clean & refuel",0,""],["Monthly systems check",0,""]],
+  u:[["Main engines & genset service (contractor)",1,"2 Jul · ext"],["Fuel-leak diagnosis in engine valley",0,"booked"]]},
+ {n:"SS88-Krystyna",c:"Sunseeker 88",
+  s:[["Wash down — remove heavy bow stain",1,"2 Jul · Duncan"],["Service sea strainers",1,"2 Jul · Stuart"],["Refuel & post-checks",1,"2 Jul · Duncan"],["Monthly systems check",1,"3 Jul · Stuart"],["Polish stainless",0,""],["Engine-room detail",0,""]],
+  u:[["Replace gen-set batteries; run engines post-service",1,"1 Jul · Stuart"]]},
+ {n:"Flagship stock fleet",c:"Dealership",
+  s:[["Boat-show detailing (SCIBS touch-ups)",1,"1 Jul · Tyrone"],["Full wash downs across stock",1,"2 Jul · Matty"],["Polish stainless / remove rust",1,"2 Jul · Grace"],["Teak clean & treatment",0,""],["Interior clean of stock boats",0,""]],
+  u:[["Replace CO2 detectors (Predator 68)",1,"3 Jul · Bruce"],["Air-con drain blockage — diagnose",0,"booked"]]},
+];
+
+const signed={};
+const $=id=>document.getElementById(id);
+function stats(v){const d=v.s.filter(x=>x[1]).length;return{d,t:v.s.length,o:v.s.length-d,p:Math.round(d/v.s.length*100)};}
+
+function renderFleet(){
+  let boats=V.length,done=0,out=0;
+  V.forEach(v=>{const st=stats(v);done+=st.d;out+=st.o;});
+  $("s-boats").textContent=boats;$("s-done").textContent=done;$("s-out").textContent=out;
+  const g=$("grid");g.innerHTML="";
+  V.forEach((v,i)=>{
+    const st=stats(v);
+    const b=document.createElement("button");b.className="card";
+    b.innerHTML=`<div class="cn"><b>${v.n}</b><small>${v.c}</small></div>
+      <div class="ringrow"><div class="ring" style="--p:${st.p}"><i>${st.d}/${st.t}</i></div>
+      <div class="info">${st.o?`<span class="out">${st.o} outstanding</span>`:`<span class="ok">All done</span>`}<br>
+      <span style="color:var(--ink-soft)">${st.d} of ${st.t} monthly jobs</span></div></div>
+      <span class="badge ${st.o?'o':'g'}">${st.o?st.o+' to finish':'Ready to sign off'}</span>
+      <div class="go">Open board ›</div>`;
+    b.onclick=()=>openBoat(i);
+    g.appendChild(b);
+  });
+  $("fleet").classList.remove("hidden");$("detail").classList.add("hidden");
+  $("htitle").textContent="Fleet Dashboard";
+  $("hsub").textContent="Every boat's month at a glance. Tap a boat to see what's done and what's outstanding, ready to sign off.";
+  window.scrollTo(0,0);
+}
+
+function openBoat(i){
+  const v=V[i];const st=stats(v);
+  $("htitle").textContent=v.n;
+  $("hsub").textContent=v.c+" · July 2026 maintenance board";
+  let h=`<div class="summary">
+    <div class="ring" style="--p:${st.p}"><i>${st.d}/${st.t}</i></div>
+    <div class="meta"><h3>${v.n}</h3><p>${st.d} of ${st.t} scheduled jobs done${st.o?` · ${st.o} outstanding`:` · all complete`}</p></div>
+    <button class="signoff" id="so" ${signed[i]?'disabled':''}>${signed[i]?'✓ Signed off':'Sign off month'}</button></div>`;
+  h+=`<div class="sec"><h4>Scheduled maintenance — due this month</h4>`;
+  v.s.forEach((s,idx)=>{h+=`<div class="item ${s[1]?'done':''}" data-k="${idx}"><span class="box">✓</span>
+    <span class="txt"><span class="j">${s[0]}</span>${s[2]?`<span class="s">${s[2]}</span>`:''}</span>
+    <span class="pill">${s[1]?'Done':'Outstanding'}</span></div>`;});
+  h+=`</div><div class="sec"><h4>Unscheduled — logged this month</h4>`;
+  v.u.forEach(u=>{h+=`<div class="item ${u[1]?'done':''}" style="cursor:default"><span class="box">✓</span>
+    <span class="txt"><span class="j">${u[0]}</span>${u[2]?`<span class="s">${u[2]}</span>`:''}</span>
+    <span class="pill">${u[1]?'Done':'Booked'}</span></div>`;});
+  h+=`</div><div class="note"><b>How this fills in:</b> ticks come from the words crew already type on the End-of-Day report — no dropdowns, no extra steps. This is a sample so you can see the shape. Tap any scheduled job to try ticking it.</div>`;
+  $("board").innerHTML=h;
+  $("board").querySelectorAll('.sec:first-of-type .item').forEach(el=>{
+    el.onclick=()=>{const k=+el.dataset.k;v.s[k][1]=v.s[k][1]?0:1;v.s[k][2]=v.s[k][1]?(v.s[k][2]||'today · you'):'';openBoat(i);};
+  });
+  const so=$("so");if(so&&!signed[i])so.onclick=()=>{signed[i]=true;openBoat(i);};
+  $("fleet").classList.add("hidden");$("detail").classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+$("back").onclick=renderFleet;
+renderFleet();
+</script>
