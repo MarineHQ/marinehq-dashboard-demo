@@ -275,7 +275,8 @@ function openBoat(i){
     <div class="meta"><h3>${v.n}</h3><p>${st.d} of ${st.t} scheduled done${st.over?` · <b style="color:var(--over)">${st.over} overdue</b>`:''}${st.soon?` · ${st.soon} due soon`:''}${st.o?'':' · all complete'}</p></div>
     <button class="signoff" id="so" ${signed[i]?'disabled':''}>${signed[i]?'✓ Signed off':'Sign off month'}</button></div>
     <div class="sec"><h4>Scheduled maintenance — due this month</h4>`;
-  v.s.forEach((s,idx)=>{
+  const ord=v.s.map((s,idx)=>({s,idx})).sort((a,b)=>{const rk=x=>x[1]?2:(x[3]<TODAY?0:1);const d=rk(a.s)-rk(b.s);if(d)return d;if(!a.s[1]&&!b.s[1])return a.s[3]-b.s[3];return 0;});
+  ord.forEach(({s,idx})=>{
     const done=s[1]; let pill,meta;
     if(done){pill='<span class="pill done">Done</span>';meta=s[2];}
     else if(s[3]<TODAY){pill='<span class="pill overdue">Overdue</span>';meta=dueStr(s[3]);}
