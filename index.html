@@ -143,8 +143,13 @@
   </section>
 
   <section id="v-out" class="hidden">
-    <div class="howintro"><b>Everything outstanding across the whole fleet, in one place.</b> Overdue up top, coming up below. Tap any job to jump to that boat.</div>
-    <div class="board" id="outboard" style="margin-top:14px"></div>
+    <div class="howintro"><b>Everything outstanding, sliced any way you like.</b> Pick a boat and a status — e.g. overdue on Everywhen, or coming up across the whole fleet.</div>
+    <p class="lbl" style="margin-top:14px">Vessel</p>
+    <div class="chips" id="out-vessel"></div>
+    <p class="lbl" style="margin-top:12px">Show</p>
+    <div class="chips" id="out-status"></div>
+    <p class="count" id="out-count"></p>
+    <div id="outboard"></div>
   </section>
 
   <section id="v-menu" class="hidden">
@@ -293,22 +298,36 @@ function openBoat(i){
 $("back").onclick=()=>{renderFleet();window.scrollTo(0,0);};
 
 /* Outstanding — fleet-wide */
+var outVessel="all", outStatus="all";
+function buildOutFilters(){
+  var vc=$("out-vessel");
+  var vh='<button class="chip" data-v="all" aria-pressed="true">All boats</button>';
+  V.forEach(function(v){var c=BOAT_COL[v.n]||'var(--ink-soft)';vh+='<button class="chip" data-v="'+v.n+'" aria-pressed="false"><span class="dot" style="background:'+c+'"></span>'+v.n+'</button>';});
+  vc.innerHTML=vh;
+  var sc=$("out-status");
+  sc.innerHTML='<button class="chip" data-s="all" aria-pressed="true">All</button>'+
+    '<button class="chip" data-s="overdue" aria-pressed="false"><span class="dot" style="background:var(--over)"></span>Overdue</button>'+
+    '<button class="chip" data-s="upcoming" aria-pressed="false"><span class="dot" style="background:var(--out)"></span>Coming up</button>';
+  vc.addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;outVessel=b.dataset.v;vc.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed',c===b);});renderOutstanding();});
+  sc.addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;outStatus=b.dataset.s;sc.querySelectorAll('.chip').forEach(function(c){c.setAttribute('aria-pressed',c===b);});renderOutstanding();});
+}
 function renderOutstanding(){
   const overdue=[],upcoming=[];
   V.forEach((v,i)=>{
+    if(outVessel!=='all' && v.n!==outVessel) return;
     v.s.forEach(s=>{if(!s[1]){(s[3]<TODAY?overdue:upcoming).push({b:v.n,i,j:s[0],due:s[3],kind:'sched'});}});
     v.u.forEach(u=>{if(!u[1]){upcoming.push({b:v.n,i,j:u[0],due:u[3],kind:'booked'});}});
   });
   overdue.sort((a,b)=>a.due-b.due); upcoming.sort((a,b)=>a.due-b.due);
+  const showOver=outStatus==='all'||outStatus==='overdue', showUp=outStatus==='all'||outStatus==='upcoming';
   const row=o=>{const pill=o.kind==='booked'?'<span class="pill booked">Booked</span>':(o.due<TODAY?'<span class="pill overdue">Overdue</span>':'<span class="pill soon">Due soon</span>');
     return `<div class="item oitem" data-i="${o.i}">${boatChip(o.b)}<span class="txt"><span class="j">${o.j}</span><span class="s">${dueStr(o.due)}</span></span>${pill}</div>`;};
   let h='';
-  h+=`<div class="sec"><h4 class="rd">Overdue <span class="n">${overdue.length}</span></h4>`;
-  h+= overdue.length?overdue.map(row).join(''):'<div class="allclear">Nothing overdue — all caught up 🎉</div>';
-  h+=`</div><div class="sec"><h4 class="am">Coming up <span class="n">${upcoming.length}</span></h4>`;
-  h+= upcoming.length?upcoming.map(row).join(''):'<div class="allclear">Nothing scheduled 🎉</div>';
-  h+=`</div>`;
-  $("outboard").innerHTML=h;
+  if(showOver){h+=`<div class="sec"><h4 class="rd">Overdue <span class="n">${overdue.length}</span></h4>`+(overdue.length?overdue.map(row).join(''):'<div class="allclear">Nothing overdue here 🎉</div>')+`</div>`;}
+  if(showUp){h+=`<div class="sec"><h4 class="am">Coming up <span class="n">${upcoming.length}</span></h4>`+(upcoming.length?upcoming.map(row).join(''):'<div class="allclear">Nothing coming up 🎉</div>')+`</div>`;}
+  $("outboard").innerHTML='<div class="board">'+h+'</div>';
+  var lbl=(outVessel==='all'?'the whole fleet':outVessel);
+  $("out-count").innerHTML=`<b>${overdue.length}</b> overdue · <b>${upcoming.length}</b> coming up — ${lbl}`;
   $("outboard").querySelectorAll('.oitem').forEach(el=>{el.onclick=()=>goBoat(+el.dataset.i);});
 }
 function goBoat(i){selectTab('fleet');openBoat(i);}
@@ -333,6 +352,7 @@ function applyMenu(f){
 $("chips").addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
   $("chips").querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b));applyMenu(b.dataset.f);});
 applyMenu('all');
+buildOutFilters();
 
 /* Tabs */
 function selectTab(v){
