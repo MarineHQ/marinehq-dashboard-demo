@@ -49,6 +49,11 @@
   .badge{display:inline-block;margin-top:9px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
   .badge.o{background:var(--out-bg);color:var(--out)} .badge.g{background:var(--done-bg);color:var(--done)} .badge.r{background:var(--over-bg);color:var(--over)}
   .go{margin-top:10px;font-size:12px;color:var(--navy);font-weight:700}
+  .card{border-left:6px solid var(--line)}
+  .card.st-red{border-left-color:var(--over)} .card.st-amber{border-left-color:var(--out)} .card.st-green{border-left-color:var(--done)}
+  .sdot{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:8px;vertical-align:middle}
+  .cardlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--ink-soft);margin:0 2px 12px;font-weight:600}
+  .cardlegend i{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle}
   .back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--navy);font-weight:700;font-size:14px;cursor:pointer;padding:8px 2px;font-family:inherit}
   .back:focus-visible{outline:2px solid var(--orange);outline-offset:2px;border-radius:6px}
   .board{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 2px 14px rgba(16,41,63,.06)}
@@ -124,6 +129,11 @@
       </div>
       <div id="attention" style="margin-top:14px"></div>
       <h2 class="sectitle">The fleet</h2>
+      <div class="cardlegend">
+        <span><i style="background:var(--over)"></i>Has overdue</span>
+        <span><i style="background:var(--out)"></i>Due soon</span>
+        <span><i style="background:var(--done)"></i>All done</span>
+      </div>
       <div class="grid" id="grid"></div>
     </div>
     <div id="detail" class="hidden">
@@ -239,11 +249,14 @@ function renderFleet(){
     $("seeall").onclick=()=>selectTab('out');
   } else { att.innerHTML=`<div class="board"><div class="allclear">Nothing overdue across the fleet &mdash; all caught up &#127881;</div></div>`; }
   const g=$("grid");g.innerHTML="";
-  V.forEach((v,i)=>{const st=stats(v);const b=document.createElement("button");b.className="card";
+  V.forEach((v,i)=>{const st=stats(v);const b=document.createElement("button");
+    const state = st.over?'red':st.o?'amber':'green';
+    const dotc = st.over?'over':st.o?'out':'done';
+    b.className="card st-"+state;
     let badge = st.over?`<span class="badge r">${st.over} overdue</span>`
               : st.o?`<span class="badge o">${st.o} due soon</span>`
               : `<span class="badge g">Ready to sign off</span>`;
-    b.innerHTML=`<div class="cn"><b>${v.n}</b><small>${v.c}</small></div>
+    b.innerHTML=`<div class="cn"><b><span class="sdot" style="background:var(--${dotc})"></span>${v.n}</b><small>${v.c}</small></div>
       <div class="ringrow"><div class="ring" style="--p:${st.p}"><i>${st.d}/${st.t}</i></div>
       <div class="info">${st.o?`<span class="out">${st.o} outstanding</span>`:`<span class="ok">All done</span>`}<br>
       <span style="color:var(--ink-soft)">${st.d} of ${st.t} monthly jobs</span></div></div>
