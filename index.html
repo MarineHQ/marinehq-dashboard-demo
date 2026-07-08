@@ -272,26 +272,35 @@ function renderFleet(){
   $("fleet").classList.remove("hidden");$("detail").classList.add("hidden");
   $("htitle").textContent="Fleet Dashboard";$("hsub").textContent="Every boat's month at a glance. Tap a boat to see what's done and what's outstanding.";
 }
+var boatFilter='all', boatFilterFor=null;
 function openBoat(i){
   const v=V[i],st=stats(v);
+  if(boatFilterFor!==i){boatFilter='all';boatFilterFor=i;}
   $("htitle").textContent=v.n;$("hsub").textContent=v.c+" · July 2026 maintenance board";
+  // one combined list of everything for this boat, each with a status
+  const items=[];
+  v.s.forEach((s,idx)=>{items.push({job:s[0],status:s[1]?'done':(s[3]<TODAY?'overdue':'soon'),meta:s[1]?s[2]:dueStr(s[3]),k:idx});});
+  v.u.forEach(u=>{items.push({job:u[0],status:u[1]?'done':'booked',meta:u[1]?u[2]:dueStr(u[3]),k:null});});
+  const rank={overdue:0,soon:1,booked:1,done:2};
+  items.sort((a,b)=>rank[a.status]-rank[b.status]);
+  const cnt={overdue:0,soon:0,done:0};
+  items.forEach(it=>{ if(it.status==='overdue')cnt.overdue++; else if(it.status==='done')cnt.done++; else cnt.soon++; });
+  const match=it=> boatFilter==='all' || (boatFilter==='soon'?(it.status==='soon'||it.status==='booked'):it.status===boatFilter);
+  const shown=items.filter(match);
+  const pillOf=s=>s==='done'?'<span class="pill done">Done</span>':s==='overdue'?'<span class="pill overdue">Overdue</span>':s==='booked'?'<span class="pill booked">Booked</span>':'<span class="pill soon">Due soon</span>';
+  const chip=(key,label,n)=>`<button class="chip" data-bf="${key}" aria-pressed="${boatFilter===key}">${label}${n!==undefined?` <span class="n">${n}</span>`:''}</button>`;
   let h=`<div class="summary"><div class="ring" style="--p:${st.p}"><i>${st.d}/${st.t}</i></div>
     <div class="meta"><h3>${v.n}</h3><p>${st.d} of ${st.t} scheduled done${st.over?` · <b style="color:var(--over)">${st.over} overdue</b>`:''}${st.soon?` · ${st.soon} due soon`:''}${st.o?'':' · all complete'}</p></div>
-    <button class="signoff" id="so" ${signed[i]?'disabled':''}>${signed[i]?'✓ Signed off':'Sign off month'}</button></div>
-    <div class="sec"><h4>Scheduled maintenance — due this month</h4>`;
-  const ord=v.s.map((s,idx)=>({s,idx})).sort((a,b)=>{const rk=x=>x[1]?2:(x[3]<TODAY?0:1);const d=rk(a.s)-rk(b.s);if(d)return d;if(!a.s[1]&&!b.s[1])return a.s[3]-b.s[3];return 0;});
-  ord.forEach(({s,idx})=>{
-    const done=s[1]; let pill,meta;
-    if(done){pill='<span class="pill done">Done</span>';meta=s[2];}
-    else if(s[3]<TODAY){pill='<span class="pill overdue">Overdue</span>';meta=dueStr(s[3]);}
-    else{pill='<span class="pill soon">Due soon</span>';meta=dueStr(s[3]);}
-    h+=`<div class="item ${done?'done':''}" data-k="${idx}"><span class="box">✓</span><span class="txt"><span class="j">${s[0]}</span><span class="s">${meta}</span></span>${pill}</div>`;});
-  h+=`</div><div class="sec"><h4>Unscheduled — logged this month</h4>`;
-  v.u.forEach(u=>{const done=u[1];const pill=done?'<span class="pill done">Done</span>':'<span class="pill booked">Booked</span>';const meta=done?u[2]:dueStr(u[3]);
-    h+=`<div class="item ${done?'done':''}" style="cursor:default"><span class="box">✓</span><span class="txt"><span class="j">${u[0]}</span><span class="s">${meta}</span></span>${pill}</div>`;});
-  h+=`</div><div class="note"><b>How this fills in:</b> ticks come from the words crew already type on the End-of-Day report — no dropdowns. This is a sample. Tap any scheduled job to try ticking it.</div>`;
+    <button class="signoff" id="so" ${signed[i]?'disabled':''}>${signed[i]?'✓ Signed off':'Sign off month'}</button></div>`;
+  h+=`<div class="chips" style="padding:12px 16px 2px">${chip('all','All')}${chip('overdue','Overdue',cnt.overdue)}${chip('soon','Due soon',cnt.soon)}${chip('done','Done',cnt.done)}</div>`;
+  h+=`<div class="sec" style="padding-top:6px">`;
+  if(shown.length){shown.forEach(it=>{const clickable=it.k!==null;
+    h+=`<div class="item ${it.status==='done'?'done':''}" ${clickable?`data-k="${it.k}"`:'style="cursor:default"'}><span class="box">✓</span><span class="txt"><span class="j">${it.job}</span><span class="s">${it.meta}</span></span>${pillOf(it.status)}</div>`;});}
+  else{h+='<div class="allclear">Nothing here for this filter 🎉</div>';}
+  h+=`</div><div class="note">Tap a scheduled job to tick it done. Sample data.</div>`;
   $("board").innerHTML=h;
-  $("board").querySelectorAll('.sec:first-of-type .item').forEach(el=>{el.onclick=()=>{const k=+el.dataset.k;const j=v.s[k];j[1]=j[1]?0:1;if(j[1]){j[2]='today · you';}openBoat(i);};});
+  $("board").querySelectorAll('.chips .chip').forEach(b=>{b.onclick=()=>{boatFilter=b.dataset.bf;openBoat(i);};});
+  $("board").querySelectorAll('.item[data-k]').forEach(el=>{el.onclick=()=>{const k=+el.dataset.k;const j=v.s[k];j[1]=j[1]?0:1;if(j[1]){j[2]='today · you';}openBoat(i);};});
   const so=$("so");if(so&&!signed[i])so.onclick=()=>{signed[i]=true;openBoat(i);};
   $("fleet").classList.add("hidden");$("detail").classList.remove("hidden");window.scrollTo(0,0);
 }
