@@ -221,8 +221,9 @@ const MENU=[
    ["Equipment install (new gear)",[["Install oil-change pump; fit hoses",ON],["Install backup freshwater pump + switch",ON],["Install grey-water auto-discharge",ON],["Fit fishing-rod holders; tool storage",ON],["Fit new tender cradle",ON]]],
    ["Compliance upgrade (survey-driven)",[["Survey-driven compliance work",ON]]]]],
  ["4. Operations","activities",[
-   ["Movements & deliveries",[["Vessel transfer between marinas / yards",RQ],["Relocate to travel lift / hard stand",RQ],["Long-distance delivery (skipper + crew)",RQ],["Pre-departure & pre-start checks",RQ],["Crew transfers & tender runs",RQ],["Refuel vessel",RQ]]],
-   ["Charter & owner support",[["Charter prep (stores, toys, beds)",RQ],["Skipper / crew charter days",RQ],["Dockside day rate (standby)",RQ],["Provisioning",RQ],["Linen service & laundry",RQ],["Interior reset after charter",RQ],["Guest assistance / turnarounds",RQ]]],
+   ["Movements & transfers",[["Vessel transfer between marinas / yards",RQ],["Relocate to travel lift / hard stand",RQ],["Pre-departure & pre-start checks",RQ],["Crew transfers & tender runs",RQ],["Refuel vessel",RQ]]],
+   ["Deliveries",[["Long-distance delivery — skipper day rate",RQ],["Delivery crew day rate",RQ],["Passage provisioning & fuel",RQ],["Delivery planning & weather routing",RQ],["Return transfers (flights / road)",RQ]]],
+   ["Charters",[["Charter — skipper day",RQ],["Charter — crew / stewardess day",RQ],["Day charter / day cruise",RQ],["Dockside day rate (standby)",RQ],["Charter prep (stores, toys, beds)",RQ],["Provisioning for charter",RQ],["Interior reset after charter",RQ],["Guest assistance / turnarounds",RQ]]],
    ["Boat show / broker / inspection prep",[["Boat-show detailing (SCIBS)",RQ],["Bump-in / bump-out",RQ],["Owner / broker inspection prep",RQ],["Photo-shoot prep",RQ],["Stain / mould remediation for showing",RQ]]],
    ["Project management / admin",[["Monthly Management Fee (PM & QC)",MO],["Owner reports (monthly)",MO],["Coordinate contractors & surveyors",RQ],["Organise marina access cards / fobs",RQ],["Induct & guide new crew",RQ],["Source & collect supplies, parts",RQ]]]]]
 ];
@@ -355,7 +356,7 @@ function applyMenu(f){
   document.querySelectorAll('.mrow').forEach(r=>{const show=(f==='all'||r.dataset.fq===f);r.classList.toggle('h',!show);if(show)n++;});
   document.querySelectorAll('.msub').forEach(s=>s.classList.toggle('h',!s.querySelector('.mrow:not(.h)')));
   document.querySelectorAll('.mhead').forEach(hd=>hd.classList.toggle('h',!hd.querySelector('.msub:not(.h)')));
-  $("count").innerHTML=(f==='all')?`Showing <b>all 157</b> jobs across 4 categories`:`Showing <b>${n}</b> ${f.toLowerCase()} job${n===1?'':'s'}`;
+  $("count").innerHTML=(f==='all')?`Showing <b>all ${document.querySelectorAll('.mrow').length}</b> jobs across 4 categories`:`Showing <b>${n}</b> ${f.toLowerCase()} job${n===1?'':'s'}`;
 }
 $("chips").addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
   $("chips").querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b));applyMenu(b.dataset.f);});
